@@ -5,7 +5,7 @@ Hierarchischer Dropdown-Slicer für Power BI. Version **1.0.0.34**.
 ## 1. Mini-Benutzerhandbuch
 
 ### Installation
-1. Nimm das `.pbiviz`-Paket aus `dist/`.
+1. Nimm das `.pbiviz`-Paket aus dem Ordner `comboSilcer` unter https://github.com/ramiro-fer-vip/comboSlicer/.
 2. In Power BI Desktop: `...` (weitere Visuals) > **Visuelles aus einer Datei importieren** und wähle das Paket.
 3. Das Visual `comboSlicer` erscheint im Bereich „Visualisierungen“.
 

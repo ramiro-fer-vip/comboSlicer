@@ -5,7 +5,7 @@ Segment hiérarchique à liste déroulante pour Power BI. Version **1.0.0.34**.
 ## 1. Mini manuel d'utilisation
 
 ### Installation
-1. Prends le package `.pbiviz` dans `dist/`.
+1. Prends le package `.pbiviz` dans le dossier `comboSilcer` sur https://github.com/ramiro-fer-vip/comboSlicer/.
 2. Dans Power BI Desktop : `...` (autres visuels) > **Importer un visuel à partir d'un fichier**, puis sélectionne le package.
 3. Le visuel `comboSlicer` apparaît dans le volet des visualisations.
 

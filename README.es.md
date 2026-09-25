@@ -5,7 +5,7 @@ Segmentación desplegable jerárquica para Power BI. Versión **1.0.0.34**.
 ## 1. Mini manual de uso
 
 ### Instalación
-1. Toma el paquete `.pbiviz` de `dist/`.
+1. Toma el paquete `.pbiviz` de la carpeta `comboSilcer` en https://github.com/ramiro-fer-vip/comboSlicer/.
 2. En Power BI Desktop: `...` (más objetos visuales) > **Importar un objeto visual desde un archivo** y selecciona el paquete.
 3. El visual `comboSlicer` aparece en el panel de visualizaciones.
 

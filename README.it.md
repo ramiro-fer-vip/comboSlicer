@@ -5,7 +5,7 @@ Filtro desplegabile gerarchico per Power BI. Versione **1.0.0.34**.
 ## 1. Mini manuale d'uso
 
 ### Installazione
-1. Prendi il pacchetto `.pbiviz` da `dist/`.
+1. Prendi il pacchetto `.pbiviz` dalla cartella `comboSilcer` in https://github.com/ramiro-fer-vip/comboSlicer/.
 2. In Power BI Desktop: `...` (altri oggetti visivi) > **Importa un oggetto visivo da un file** e seleziona il pacchetto.
 3. L'oggetto visivo `comboSlicer` appare nel riquadro delle visualizzazioni.
 
