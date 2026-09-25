@@ -1,6 +1,6 @@
 # comboSlicer
 
-Hierarchischer Dropdown-Slicer für Power BI. Version **1.0.0.31**.
+Hierarchischer Dropdown-Slicer für Power BI. Version **1.0.0.34**.
 
 ## 1. Mini-Benutzerhandbuch
 
@@ -29,7 +29,7 @@ Ziehe Felder auf die Datenrollen des Visuals:
 - **Dropdown expanded**: standardmäßig alles erweitern; erweiterte Breite/Höhe (`0` = automatisch); Listentypografie — Größe (Standard `12`), Schriftart (`Segoe UI`), Fett, Kursiv; Messwerte anzeigen (standardmäßig aus).
 - **Data Filtering**: Null-/Leerwerte ausblenden, Text für leeren Zustand.
 - **Hierarchy & Prefixes**: Präfixe pro Ebene (kommagetrennt) aus der Anzeige entfernen (z. B. `Univ., Universität`), Groß-/Kleinschreibung egal.
-- **Sorting**: Standard `Alphabetisch (A-Z)`; auch `Z-A` und `Modellreihenfolge` (beachtet das OrderBy des Felds), für alle Ebenen oder eine einzelne. Die Sortierung über die Visual-Kopfzeile (Menü `...`) hat Vorrang.
+- **Sorting**: Sortierung pro Ebene 1–3 (Standard `A-Z`; auch `Z-A` und `Modellreihenfolge`, beachtet das OrderBy); `Sort order` heißt jetzt `Other levels order` und gilt für tiefere Ebenen. Kopfzeilensortierung (Menü `...`) hat Vorrang außer `Kopfzeilen-Sortierung ignorieren`.
 - **Colors & Style**: Kopf-/Listenhintergründe, Textfarben, Checkbox-Akzent, Auswahlrahmen.
 
 ### Layout-Tipps
@@ -55,3 +55,6 @@ Ziehe Felder auf die Datenrollen des Visuals:
 - **1.0.0.29**: Typografie-Karte `Dropdown expanded`; Präfix-Beispiele auf Englisch; Trennzeichen `;` für Präfixe.
 - **1.0.0.30**: Breite/Höhe/Alles-erweitern nach `Dropdown expanded` verschoben; konkrete Typografiewerte (12, Segoe UI).
 - **1.0.0.31**: Standardtexte auf Englisch; Kopfzeilen-Schriftart Segoe UI; Messwerte nach `Dropdown expanded` verschoben, standardmäßig aus.
+- **1.0.0.32**: Sortierung pro Ebene (1–3) + `Kopfzeilen-Sortierung ignorieren`.
+- **1.0.0.33**: Alles auswählen behält Markierungen (expliziter Vollfilter); Resilienz bei Quellwechsel (Session-Reset, Bereinigung obsoleter Filter, ignorierte fehlausgerichtete Measure).
+- **1.0.0.34**: technische Lokalisierungsprüfung (Plattform-Terminologie je Sprache).

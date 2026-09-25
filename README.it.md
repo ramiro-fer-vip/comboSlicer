@@ -1,6 +1,6 @@
 # comboSlicer
 
-Filtro desplegabile gerarchico per Power BI. Versione **1.0.0.31**.
+Filtro desplegabile gerarchico per Power BI. Versione **1.0.0.34**.
 
 ## 1. Mini manuale d'uso
 
@@ -29,7 +29,7 @@ Trascina i campi nei ruoli del visivo:
 - **Dropdown expanded**: espandi tutto per impostazione predefinita; larghezza/altezza espanse (`0` = automatico); tipografia dell'elenco — dimensione (predefinita `12`), carattere (`Segoe UI`), grassetto, corsivo; mostra valori misura (predefinito spento).
 - **Data Filtering**: nascondi zeri/vuoti, testo per stato vuoto.
 - **Hierarchy & Prefixes**: prefissi per livello (separati da virgole) da rimuovere dal testo (es. `Univ., Università`), ignorando maiuscole/minuscole.
-- **Sorting**: `Alfabetico (A-Z)` predefinito; anche `Z-A` e `Ordine del modello` (rispetta l'OrderBy del campo), per tutti i livelli o uno solo. L'ordinamento dall'intestazione del visivo (menu `...`) ha priorità.
+- **Sorting**: ordine per livelli 1–3 (`A-Z` predefinito; anche `Z-A` e `Ordine del modello`, che rispetta l'OrderBy); `Sort order` ora si chiama `Other levels order` e vale per i livelli più profondi. L'ordinamento dall'intestazione (`...`) ha priorità salvo `Ignora ordinamento intestazione`.
 - **Colors & Style**: sfondi intestazione/elenco, colori testo, accento caselle, bordo di selezione.
 
 ### Suggerimenti di layout
@@ -55,3 +55,6 @@ Trascina i campi nei ruoli del visivo:
 - **1.0.0.29**: scheda tipografica `Dropdown expanded`; esempi prefissi in inglese; separatore `;` per i prefissi.
 - **1.0.0.30**: larghezza/altezza/espandi-tutto spostati in `Dropdown expanded`; valori tipografici concreti (12, Segoe UI).
 - **1.0.0.31**: testi predefiniti in inglese; carattere intestazione Segoe UI; Mostra valori spostato in `Dropdown expanded`, spento per impostazione predefinita.
+- **1.0.0.32**: ordinamento per livello (1–3) + `Ignora ordinamento intestazione`.
+- **1.0.0.33**: selezionare tutto conserva le selezioni (filtro completo esplicito); resilienza al cambio di origine (reset sessione, pulizia filtri obsoleti, misura disallineata ignorata).
+- **1.0.0.34**: revisione tecnica della localizzazione (terminologia di piattaforma per lingua).

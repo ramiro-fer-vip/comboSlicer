@@ -1,6 +1,6 @@
 # comboSlicer
 
-Segment hiérarchique à liste déroulante pour Power BI. Version **1.0.0.31**.
+Segment hiérarchique à liste déroulante pour Power BI. Version **1.0.0.34**.
 
 ## 1. Mini manuel d'utilisation
 
@@ -29,7 +29,7 @@ Fais glisser les champs vers les rôles du visuel :
 - **Dropdown expanded** : tout développer par défaut ; largeur/hauteur développées (`0` = automatique) ; typographie de la liste — taille (`12` par défaut), police (`Segoe UI`), gras, italique ; afficher les valeurs de mesure (désactivé par défaut).
 - **Data Filtering** : masquer zéros/vides, texte d'état vide.
 - **Hierarchy & Prefixes** : préfixes par niveau (séparés par des virgules) à retirer du texte (ex. `Univ., Université`), sans tenir compte de la casse.
-- **Sorting** : `Alphabétique (A-Z)` par défaut ; aussi `Z-A` et `Ordre du modèle` (respecte le OrderBy du champ), pour tous les niveaux ou un seul. Le tri depuis l'en-tête du visuel (menu `...`) est prioritaire.
+- **Sorting** : ordre par niveaux 1–3 (`A-Z` par défaut ; aussi `Z-A` et `Ordre du modèle`, qui respecte le OrderBy) ; `Sort order` s'appelle désormais `Other levels order` et vaut pour les niveaux profonds. Le tri depuis l'en-tête (`...`) est prioritaire sauf `Ignorer le tri d'en-tête`.
 - **Colors & Style** : arrière-plans en-tête/liste, couleurs de texte, accent des cases, bordure de sélection.
 
 ### Conseils de disposition
@@ -55,3 +55,6 @@ Fais glisser les champs vers les rôles du visuel :
 - **1.0.0.29** : carte typographique `Dropdown expanded` ; exemples de préfixes en anglais ; séparateur `;` pour les préfixes.
 - **1.0.0.30** : largeur/hauteur/tout-développer déplacés vers `Dropdown expanded` ; valeurs typographiques concrètes (12, Segoe UI).
 - **1.0.0.31** : textes par défaut en anglais ; police d'en-tête Segoe UI ; afficher les valeurs déplacé vers `Dropdown expanded`, désactivé par défaut.
+- **1.0.0.32** : tri par niveau (1–3) + `Ignorer le tri d'en-tête`.
+- **1.0.0.33** : tout sélectionner conserve les coches (filtre complet explicite) ; résilience au changement de source (réinitialisation session, nettoyage filtres obsolètes, mesure désalignée ignorée).
+- **1.0.0.34** : révision technique de la localisation (terminologie plateforme par langue).

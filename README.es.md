@@ -1,6 +1,6 @@
 # comboSlicer
 
-Segmentación desplegable jerárquica para Power BI. Versión **1.0.0.31**.
+Segmentación desplegable jerárquica para Power BI. Versión **1.0.0.34**.
 
 ## 1. Mini manual de uso
 
@@ -29,7 +29,7 @@ Arrastra campos a los roles del visual:
 - **Dropdown expanded**: expandir todo por defecto; ancho/alto expandidos (`0` = automático); tipografía de la lista — tamaño (defecto `12`), fuente (`Segoe UI`), negrita, cursiva; mostrar valores de medida (defecto apagado).
 - **Data Filtering**: ocultar ceros/vacíos, texto de estado vacío.
 - **Hierarchy & Prefixes**: prefijos por nivel (separados por comas) a recortar del texto (ej. `Univ., Universidad`), ignorando mayúsculas.
-- **Sorting**: `Alfabético (A-Z)` por defecto; también `Z-A` y `Orden del modelo` (respeta el OrderBy del campo), para todos los niveles o uno solo. El orden del encabezado del visual (menú `...`) tiene prioridad.
+- **Sorting**: orden por nivel 1–3 (`A-Z` por defecto; también `Z-A` y `Orden del modelo`, que respeta el OrderBy); `Sort order` ahora se llama `Other levels order` y rige niveles más profundos. El orden del encabezado (`...`) tiene prioridad salvo `Ignorar orden del encabezado`.
 - **Colors & Style**: fondos de encabezado/desplegable, colores de texto, acento de casillas, borde de selección.
 
 ### Consejos de diseño
@@ -55,3 +55,6 @@ Arrastra campos a los roles del visual:
 - **1.0.0.29**: tarjeta de tipografía `Dropdown expanded`; ejemplos de prefijos en inglés; separador `;` en prefijos.
 - **1.0.0.30**: ancho/alto/expandir-todo movidos a `Dropdown expanded`; valores tipográficos concretos (12, Segoe UI).
 - **1.0.0.31**: textos por defecto en inglés; fuente del encabezado Segoe UI; Mostrar valores movido a `Dropdown expanded`, apagado por defecto.
+- **1.0.0.32**: orden por nivel (1–3) + `Ignorar orden del encabezado`.
+- **1.0.0.33**: seleccionar todo conserva las marcas (filtro completo explícito); resiliencia ante cambio de fuente (reseteo de sesión, limpieza de filtros obsoletos, medida desalineada ignorada).
+- **1.0.0.34**: revisión técnica de localización (terminología de plataforma por idioma).

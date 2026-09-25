@@ -1,6 +1,6 @@
 # comboSlicer
 
-Hierarchical dropdown slicer for Power BI. Version **1.0.0.31**.
+Hierarchical dropdown slicer for Power BI. Version **1.0.0.34**.
 
 ## 1. Mini user manual
 
@@ -29,7 +29,7 @@ Drag fields to the visual data roles:
 - **Dropdown expanded**: expand-all by default; expanded width/height (`0` = automatic); list typography — font size (default `12`), font (`Segoe UI`), bold, italic; show measure values (default off).
 - **Data Filtering**: hide zero/blank values, custom empty-state text.
 - **Hierarchy & Prefixes**: per-level comma-separated prefixes to trim from display (e.g. `Univ., Universidad`), ignoring case.
-- **Sorting**: `Alphabetical (A-Z)` by default; also `Z-A` and `Data model order` (respects the field's OrderBy), applied to all levels or a single level. Sorting from the visual header (`...` menu) takes precedence.
+- **Sorting**: per-level order for levels 1–3 (`A-Z` default; also `Z-A` and `Data model order`, which respects the field's OrderBy); `Sort order` is now labeled `Other levels order` and applies to deeper levels. Visual-header sorting (`...` menu) takes precedence unless `Ignore visual header sort` is on.
 - **Colors & Style**: header/dropdown backgrounds, text colors, checkbox accent, selection border.
 
 ### Layout tips
@@ -55,3 +55,6 @@ Drag fields to the visual data roles:
 - **1.0.0.29**: `Dropdown expanded` typography card; prefix examples in English; `;` separator for prefixes.
 - **1.0.0.30**: width/height/expand-all moved to `Dropdown expanded`; concrete typography defaults (12, Segoe UI).
 - **1.0.0.31**: English defaults (empty text, placeholders, tooltips); header font default Segoe UI; Show measure values moved to `Dropdown expanded`, off by default.
+- **1.0.0.32**: per-level sort (1–3) + `Ignore visual header sort`.
+- **1.0.0.33**: selecting everything keeps the checks (explicit full filter); source-change resilience (session reset, stale-filter cleanup, misaligned-measure guard).
+- **1.0.0.34**: technical localization review (platform terminology per language).
