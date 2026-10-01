@@ -1,6 +1,6 @@
 # comboSlicer
 
-Hierarchical dropdown slicer for Power BI. Version **1.0.0.34**.
+Hierarchical dropdown slicer for Power BI. Version **1.0.0.37**.
 
 ## 1. Mini user manual
 
@@ -24,7 +24,7 @@ Drag fields to the visual data roles:
 - Selections filter every other visual in the report and are saved in the `.pbix` (including bookmarks and synced slicers).
 
 ### Format (Visual tab)
-- **Dropdown**: placeholder text; control position (`Top`, `Bottom`, `Top-right`, `Bottom-right` — the `-right` variants dock the control to the right edge); search box; Select All; font size; fixed header width; close on mouse leave; close on selection; control height (default `36`); label spacing (default `4`).
+- **Dropdown**: placeholder text; control position (`Top`, `Bottom`, `Top-right`, `Bottom-right` — the `-right` variants dock the control to the right edge); search box; Select All; font size; fixed header width; close on mouse leave; close on selection; control height (default `36`); label spacing (default `2`).
 - **Slicer header**: optional title above the control (defaults to the field name), with font, bold and italic.
 - **Dropdown expanded**: expand-all by default; expanded width/height (`0` = automatic); list typography — font size (default `12`), font (`Segoe UI`), bold, italic; show measure values (default off).
 - **Data Filtering**: hide zero/blank values, custom empty-state text.
@@ -58,3 +58,6 @@ Drag fields to the visual data roles:
 - **1.0.0.32**: per-level sort (1–3) + `Ignore visual header sort`.
 - **1.0.0.33**: selecting everything keeps the checks (explicit full filter); source-change resilience (session reset, stale-filter cleanup, misaligned-measure guard).
 - **1.0.0.34**: technical localization review (platform terminology per language).
+- **1.0.0.35**: header title shown even with no data (reserved space while loading); header driven by own filter (stable single-selection display).
+- **1.0.0.36**: title spacing matches with/without records (reserved space only when empty).
+- **1.0.0.37**: label spacing default 2px.

@@ -1,6 +1,6 @@
 # comboSlicer
 
-Segmentación desplegable jerárquica para Power BI. Versión **1.0.0.34**.
+Segmentación desplegable jerárquica para Power BI. Versión **1.0.0.37**.
 
 ## 1. Mini manual de uso
 
@@ -24,7 +24,7 @@ Arrastra campos a los roles del visual:
 - Las selecciones filtran los demás visuales del informe y se guardan en el `.pbix` (incluidos marcadores y segmentadores sincronizados).
 
 ### Formato (pestaña Visual)
-- **Dropdown**: texto de marcador; posición (`Top`, `Bottom`, `Top-right`, `Bottom-right` — las variantes `-right` anclan el control al borde derecho); buscador; Seleccionar todo; tamaño de fuente; ancho fijo del encabezado; cerrar al salir el ratón; cerrar al seleccionar; altura del control (defecto `36`); espacio de etiqueta (defecto `4`).
+- **Dropdown**: texto de marcador; posición (`Top`, `Bottom`, `Top-right`, `Bottom-right` — las variantes `-right` anclan el control al borde derecho); buscador; Seleccionar todo; tamaño de fuente; ancho fijo del encabezado; cerrar al salir el ratón; cerrar al seleccionar; altura del control (defecto `36`); espacio de etiqueta (defecto `2`).
 - **Slicer header**: título opcional sobre el control (por defecto el nombre del campo), con fuente, negrita y cursiva.
 - **Dropdown expanded**: expandir todo por defecto; ancho/alto expandidos (`0` = automático); tipografía de la lista — tamaño (defecto `12`), fuente (`Segoe UI`), negrita, cursiva; mostrar valores de medida (defecto apagado).
 - **Data Filtering**: ocultar ceros/vacíos, texto de estado vacío.
@@ -58,3 +58,6 @@ Arrastra campos a los roles del visual:
 - **1.0.0.32**: orden por nivel (1–3) + `Ignorar orden del encabezado`.
 - **1.0.0.33**: seleccionar todo conserva las marcas (filtro completo explícito); resiliencia ante cambio de fuente (reseteo de sesión, limpieza de filtros obsoletos, medida desalineada ignorada).
 - **1.0.0.34**: revisión técnica de localización (terminología de plataforma por idioma).
+- **1.0.0.35**: título visible aun sin datos (espacio reservado en carga); encabezado guiado por filtro propio (selección única estable).
+- **1.0.0.36**: espaciado del título idéntico con/sin registros (reserva solo en vacío).
+- **1.0.0.37**: espacio de etiqueta por defecto 2px.

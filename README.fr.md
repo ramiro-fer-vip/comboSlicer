@@ -1,6 +1,6 @@
 # comboSlicer
 
-Segment hiérarchique à liste déroulante pour Power BI. Version **1.0.0.34**.
+Segment hiérarchique à liste déroulante pour Power BI. Version **1.0.0.37**.
 
 ## 1. Mini manuel d'utilisation
 
@@ -24,7 +24,7 @@ Fais glisser les champs vers les rôles du visuel :
 - Les sélections filtrent les autres visuels du rapport et sont enregistrées dans le `.pbix` (y compris signets et segments synchronisés).
 
 ### Mise en forme (onglet Visuel)
-- **Dropdown** : texte d'espace réservé ; position (`Top`, `Bottom`, `Top-right`, `Bottom-right` — les variantes `-right` ancrent le contrôle au bord droit) ; zone de recherche ; Tout sélectionner ; taille de police ; largeur fixe de l'en-tête ; fermer au départ de la souris ; fermer à la sélection ; hauteur du contrôle (`36` par défaut) ; espacement de l'étiquette (`4` par défaut).
+- **Dropdown** : texte d'espace réservé ; position (`Top`, `Bottom`, `Top-right`, `Bottom-right` — les variantes `-right` ancrent le contrôle au bord droit) ; zone de recherche ; Tout sélectionner ; taille de police ; largeur fixe de l'en-tête ; fermer au départ de la souris ; fermer à la sélection ; hauteur du contrôle (`36` par défaut) ; espacement de l'étiquette (`2` par défaut).
 - **Slicer header** : titre facultatif au-dessus du contrôle (nom du champ par défaut), avec police, gras et italique.
 - **Dropdown expanded** : tout développer par défaut ; largeur/hauteur développées (`0` = automatique) ; typographie de la liste — taille (`12` par défaut), police (`Segoe UI`), gras, italique ; afficher les valeurs de mesure (désactivé par défaut).
 - **Data Filtering** : masquer zéros/vides, texte d'état vide.
@@ -58,3 +58,6 @@ Fais glisser les champs vers les rôles du visuel :
 - **1.0.0.32** : tri par niveau (1–3) + `Ignorer le tri d'en-tête`.
 - **1.0.0.33** : tout sélectionner conserve les coches (filtre complet explicite) ; résilience au changement de source (réinitialisation session, nettoyage filtres obsolètes, mesure désalignée ignorée).
 - **1.0.0.34** : révision technique de la localisation (terminologie plateforme par langue).
+- **1.0.0.35** : titre visible même sans données (espace réservé au chargement) ; en-tête piloté par le filtre propre (sélection unique stable).
+- **1.0.0.36** : espacement du titre identique avec/sans données (espace réservé seulement si vide).
+- **1.0.0.37** : espacement de l'étiquette 2px par défaut.

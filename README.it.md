@@ -1,6 +1,6 @@
 # comboSlicer
 
-Filtro desplegabile gerarchico per Power BI. Versione **1.0.0.34**.
+Filtro desplegabile gerarchico per Power BI. Versione **1.0.0.37**.
 
 ## 1. Mini manuale d'uso
 
@@ -24,7 +24,7 @@ Trascina i campi nei ruoli del visivo:
 - Le selezioni filtrano gli altri oggetti visivi del report e vengono salvate nel `.pbix` (inclusi segnalibri e filtri sincronizzati).
 
 ### Formattazione (scheda Visual)
-- **Dropdown**: testo segnaposto; posizione (`Top`, `Bottom`, `Top-right`, `Bottom-right` — le varianti `-right` ancorano il controllo al bordo destro); casella di ricerca; Seleziona tutto; dimensione carattere; larghezza fissa dell'intestazione; chiudi all'uscita del mouse; chiudi alla selezione; altezza controllo (predefinita `36`); spaziatura etichetta (predefinita `4`).
+- **Dropdown**: testo segnaposto; posizione (`Top`, `Bottom`, `Top-right`, `Bottom-right` — le varianti `-right` ancorano il controllo al bordo destro); casella di ricerca; Seleziona tutto; dimensione carattere; larghezza fissa dell'intestazione; chiudi all'uscita del mouse; chiudi alla selezione; altezza controllo (predefinita `36`); spaziatura etichetta (predefinita `2`).
 - **Slicer header**: titolo facoltativo sopra il controllo (predefinito: nome del campo), con carattere, grassetto e corsivo.
 - **Dropdown expanded**: espandi tutto per impostazione predefinita; larghezza/altezza espanse (`0` = automatico); tipografia dell'elenco — dimensione (predefinita `12`), carattere (`Segoe UI`), grassetto, corsivo; mostra valori misura (predefinito spento).
 - **Data Filtering**: nascondi zeri/vuoti, testo per stato vuoto.
@@ -58,3 +58,6 @@ Trascina i campi nei ruoli del visivo:
 - **1.0.0.32**: ordinamento per livello (1–3) + `Ignora ordinamento intestazione`.
 - **1.0.0.33**: selezionare tutto conserva le selezioni (filtro completo esplicito); resilienza al cambio di origine (reset sessione, pulizia filtri obsoleti, misura disallineata ignorata).
 - **1.0.0.34**: revisione tecnica della localizzazione (terminologia di piattaforma per lingua).
+- **1.0.0.35**: titolo visibile anche senza dati (spazio riservato in caricamento); intestazione guidata dal filtro proprio (selezione singola stabile).
+- **1.0.0.36**: spaziatura del titolo identica con/senza record (spazio riservato solo se vuoto).
+- **1.0.0.37**: spaziatura etichetta predefinita 2px.

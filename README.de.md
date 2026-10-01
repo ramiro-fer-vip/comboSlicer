@@ -1,6 +1,6 @@
 # comboSlicer
 
-Hierarchischer Dropdown-Slicer für Power BI. Version **1.0.0.34**.
+Hierarchischer Dropdown-Slicer für Power BI. Version **1.0.0.37**.
 
 ## 1. Mini-Benutzerhandbuch
 
@@ -24,7 +24,7 @@ Ziehe Felder auf die Datenrollen des Visuals:
 - Auswahl filtert alle anderen Visuals des Berichts und wird in der `.pbix` gespeichert (einschließlich Lesezeichen und synchronisierter Slicer).
 
 ### Formatierung (Registerkarte Visual)
-- **Dropdown**: Platzhaltertext; Steuerelementposition (`Top`, `Bottom`, `Top-right`, `Bottom-right` — die `-right`-Varianten docken das Steuerelement rechts an); Suchfeld; Alle auswählen; Schriftgröße; feste Kopfbreite; bei Mausverlassen schließen; bei Auswahl schließen; Steuerelementhöhe (Standard `36`); Beschriftungsabstand (Standard `4`).
+- **Dropdown**: Platzhaltertext; Steuerelementposition (`Top`, `Bottom`, `Top-right`, `Bottom-right` — die `-right`-Varianten docken das Steuerelement rechts an); Suchfeld; Alle auswählen; Schriftgröße; feste Kopfbreite; bei Mausverlassen schließen; bei Auswahl schließen; Steuerelementhöhe (Standard `36`); Beschriftungsabstand (Standard `2`).
 - **Slicer header**: optionale Überschrift über dem Steuerelement (Standard: Feldname), mit Schriftart, Fett und Kursiv.
 - **Dropdown expanded**: standardmäßig alles erweitern; erweiterte Breite/Höhe (`0` = automatisch); Listentypografie — Größe (Standard `12`), Schriftart (`Segoe UI`), Fett, Kursiv; Messwerte anzeigen (standardmäßig aus).
 - **Data Filtering**: Null-/Leerwerte ausblenden, Text für leeren Zustand.
@@ -58,3 +58,6 @@ Ziehe Felder auf die Datenrollen des Visuals:
 - **1.0.0.32**: Sortierung pro Ebene (1–3) + `Kopfzeilen-Sortierung ignorieren`.
 - **1.0.0.33**: Alles auswählen behält Markierungen (expliziter Vollfilter); Resilienz bei Quellwechsel (Session-Reset, Bereinigung obsoleter Filter, ignorierte fehlausgerichtete Measure).
 - **1.0.0.34**: technische Lokalisierungsprüfung (Plattform-Terminologie je Sprache).
+- **1.0.0.35**: Titel auch ohne Daten sichtbar (reservierter Platz beim Laden); Kopfzeile per eigenem Filter (stabile Einzelauswahl-Anzeige).
+- **1.0.0.36**: identischer Titelabstand mit/ohne Daten (reservierter Platz nur wenn leer).
+- **1.0.0.37**: Beschriftungsabstand Standard 2px.
