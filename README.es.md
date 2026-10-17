@@ -1,63 +1,160 @@
 # comboSlicer
 
-Segmentación desplegable jerárquica para Power BI. Versión **1.0.0.37**.
+Segmentación desplegable jerárquica para Power BI. Versión **1.0.0.42**.
+
+Segmentador tipo lista desplegable que construye una jerarquía multinivel a partir de varios campos, filtra el informe mediante el modelo de filtros estándar de Power BI y admite recorte de prefijos, ordenación, filtrado por medida y selección simple o múltiple.
+
+---
 
 ## 1. Mini manual de uso
 
 ### Instalación
-1. Toma el paquete `.pbiviz` de la carpeta `comboSilcer` en https://github.com/ramiro-fer-vip/comboSlicer/.
+1. Obtén el paquete `.pbiviz` de la carpeta `comboSilcer` en https://github.com/ramiro-fer-vip/comboSlicer/.
 2. En Power BI Desktop: `...` (más objetos visuales) > **Importar un objeto visual desde un archivo** y selecciona el paquete.
-3. El visual `comboSlicer` aparece en el panel de visualizaciones.
+3. El visual `comboSlicer` aparece en el panel de visualizaciones. Fíjalo para reutilizarlo.
 
 ### Asignar datos
-Arrastra campos a los roles del visual:
-- **Hierarchy Fields** (1–15 columnas): los niveles de jerarquía, ej. País > Provincia > Ciudad, o Año > Mes.
-- **Filter Measure** (opcional, 0–1): oculta miembros con valor cero/vacío y muestra el valor junto a cada elemento, ej. `(9.267,38)`.
-- **Tooltips** (opcional, 0–10): medidas adicionales al pasar el cursor.
+| Rol | Tipo | Rango | Uso |
+| --- | --- | --- | --- |
+| **Hierarchy Fields** | Agrupación | 1–15 | Niveles de la jerarquía, ej. País > Provincia > Ciudad, o Año > Mes |
+| **Filter Measure** | Medida | 0–1 | Oculta miembros con valor cero/vacío y muestra el valor junto a cada elemento, ej. `(9.267,38)` |
+| **Tooltips** | Medida | 0–10 | Medidas adicionales al pasar el cursor |
+
+El orden de los campos define la jerarquía: el **primer campo es el nivel raíz** y el último, el nivel hoja.
 
 ### Interactuar
-- Pulsa el encabezado para expandir/contraer. Pulsa una fila para marcarla; marcar un padre marca todos sus hijos.
-- Estados del encabezado: `(Todos)` = sin filtro, un valor único, `Múltiple (n)`, o el nombre del ancestro común cuando todo lo marcado comparte un padre (ej. `Colombia (3)`).
-- Usa la lupa para buscar, el icono de casilla para Seleccionar todo y `✕` para limpiar.
-- `Enter` acepta la búsqueda, `Esc` la limpia.
-- Clic derecho en una fila para el menú nativo (drill through).
-- Las selecciones filtran los demás visuales del informe y se guardan en el `.pbix` (incluidos marcadores y segmentadores sincronizados).
+- Pulsa el encabezado para expandir o contraer.
+- Pulsa una fila para marcarla o desmarcarla. Marcar un padre marca todos sus hijos; las selecciones parciales muestran estado indeterminado.
+- Estados del encabezado: `(Todos)` (sin filtro), un valor único, `Múltiple (n)`, o el nombre del **ancestro común** cuando todo lo seleccionado comparte un padre (ej. `Colombia (3)`).
+- Iconos de la barra: búsqueda (filtra la lista), Seleccionar todo (casilla), limpiar (`✕`), flecha (expandir/contraer) y, si el autor lo habilita, el interruptor simple/múltiple.
+- `Enter` en el buscador acepta, `Esc` lo limpia.
+- Clic derecho en una fila abre el menú nativo de Power BI (obtención de detalles).
+- Las selecciones filtran los demás visuales y se guardan en el `.pbix`, incluidos marcadores y segmentadores sincronizados.
 
-### Formato (pestaña Visual)
-- **Dropdown**: texto de marcador; posición (`Top`, `Bottom`, `Top-right`, `Bottom-right` — las variantes `-right` anclan el control al borde derecho); buscador; Seleccionar todo; tamaño de fuente; ancho fijo del encabezado; cerrar al salir el ratón; cerrar al seleccionar; altura del control (defecto `36`); espacio de etiqueta (defecto `2`).
-- **Slicer header**: título opcional sobre el control (por defecto el nombre del campo), con fuente, negrita y cursiva.
-- **Dropdown expanded**: expandir todo por defecto; ancho/alto expandidos (`0` = automático); tipografía de la lista — tamaño (defecto `12`), fuente (`Segoe UI`), negrita, cursiva; mostrar valores de medida (defecto apagado).
-- **Data Filtering**: ocultar ceros/vacíos, texto de estado vacío.
-- **Hierarchy & Prefixes**: prefijos por nivel (separados por comas) a recortar del texto (ej. `Univ., Universidad`), ignorando mayúsculas.
-- **Sorting**: orden por nivel 1–3 (`A-Z` por defecto; también `Z-A` y `Orden del modelo`, que respeta el OrderBy); `Sort order` ahora se llama `Other levels order` y rige niveles más profundos. El orden del encabezado (`...`) tiene prioridad salvo `Ignorar orden del encabezado`.
-- **Colors & Style**: fondos de encabezado/desplegable, colores de texto, acento de casillas, borde de selección.
+---
 
-### Consejos de diseño
-- La lista expandida no puede salirse del marco del visual: dimensiona el marco con alto suficiente (encabezado + lista).
-- Mantén los filtros al frente en el panel **Selección**; el área vacía deja pasar los clics y lo de atrás sigue editable.
+## 2. Referencia completa de propiedades (panel Formato > Visual)
+
+### Menú desplegable
+| Propiedad | Defecto | Descripción |
+| --- | --- | --- |
+| Texto predeterminado | *(vacío)* | Texto del encabezado cuando no hay selección. Vacío = `(Todos)` localizado. |
+| Posición del control | `Superior` | `Superior` / `Inferior` / `Superior derecha` / `Inferior derecha`. `Superior*` expande hacia abajo, `Inferior*` hacia arriba; las variantes `derecha` anclan el control y la lista al borde derecho. |
+| Mostrar cuadro de búsqueda | `Sí` | Muestra el icono de búsqueda en el encabezado. |
+| Mostrar Seleccionar todo | `Sí` | Muestra el icono Seleccionar todo (se oculta automáticamente en modo selección única). |
+| Tamaño de fuente | `12` | Tamaño del texto del encabezado. |
+| Ancho del control (px) | `0` | Ancho fijo del encabezado. `0` = ocupa el ancho del visual. |
+| Cerrar al salir el mouse | `Sí` | Cierra la lista cuando el puntero sale del control. |
+| Cerrar al seleccionar | `No` | Cierra la lista tras cada selección. |
+| Altura del control (px) | `36` | Alto de la caja del control. |
+| Espacio de etiqueta (px) | `2` | Espacio entre la etiqueta y la caja del control. |
+
+### Desplegable expandido
+| Propiedad | Defecto | Descripción |
+| --- | --- | --- |
+| Tamaño de fuente | `12` | Tamaño del texto de los elementos. |
+| Fuente | `Segoe UI` | Tipografía de los elementos. |
+| Negrita | `No` | Elementos en negrita. |
+| Cursiva | `No` | Elementos en cursiva. |
+| Expandir todo por defecto | `Sí` | Expande todas las ramas al abrir la lista. |
+| Ancho del control expandido (px) | `0` | Ancho fijo de la lista. `0` = igual al control. |
+| Alto del control expandido (px) | `0` | Alto fijo de la lista. `0` = automático (ajustado al marco). |
+| Mostrar valores de medida | `No` | Muestra el valor de la medida en línea junto a cada elemento. |
+
+### Selección múltiple
+| Propiedad | Defecto | Descripción |
+| --- | --- | --- |
+| Permitir múltiple | `Sí` | `Sí` = selección múltiple. `No` = solo una rama/nodo, se oculta Seleccionar todo y el indicador pasa a cuadrado relleno. |
+| Mostrar selección múltiple | `No` | Muestra un interruptor en el encabezado para que el usuario cambie simple/múltiple en tiempo de uso (el cambio se persiste). |
+| Color de selección única | `#ef4444` | Relleno y borde del cuadrado relleno usado en modo único. |
+| Color del interruptor | `#990000` | Color del botón del encabezado (lo diferencia de Seleccionar todo). |
+
+### Encabezado de segmentación
+| Propiedad | Defecto | Descripción |
+| --- | --- | --- |
+| Mostrar encabezado | `Sí` | Muestra el título sobre el control. |
+| Texto del encabezado | *(vacío)* | Texto del título. Vacío = nombre del primer campo. |
+| Tamaño de fuente del encabezado | `12` | Tamaño del título. |
+| Color del encabezado | *(tema)* | Color del título. |
+| Fuente del encabezado | `Segoe UI` | Tipografía del título. |
+| Negrita / Cursiva | `No` | Estilo del título. |
+
+### Filtrado de datos
+| Propiedad | Defecto | Descripción |
+| --- | --- | --- |
+| Ocultar valores en cero | `Sí` | Elimina miembros cuya medida de filtro sea `0`. |
+| Ocultar valores en blanco | `Sí` | Elimina miembros cuya medida de filtro esté vacía. |
+| Texto sin registros | *(vacío)* | Mensaje mostrado en la lista cuando no hay datos. Vacío = `- Sin registros -` localizado. |
+
+### Jerarquía y prefijos
+| Propiedad | Defecto | Descripción |
+| --- | --- | --- |
+| Ignorar mayúsculas/minúsculas | `Sí` | Comparación de prefijos sin distinguir mayúsculas. |
+| Prefijos a ignorar Nivel 1…5 | *(vacío)* | Prefijos separados por coma o punto y coma que se recortan del texto mostrado en cada nivel, ej. `Univ.; Universidad`. El nombre nunca queda vacío. |
+
+### Ordenación
+| Propiedad | Defecto | Descripción |
+| --- | --- | --- |
+| Orden nivel 1 / 2 / 3 | `Alfabético (A-Z)` | Orden por nivel: `Alfabético (A-Z)`, `Alfabético (Z-A)` u `Orden del modelo de datos` (respeta el **Ordenar por columna / OrderBy** del campo). |
+| Orden de otros niveles | `Alfabético (A-Z)` | Mismas opciones, aplicadas a los niveles 4 y posteriores. |
+| Ignorar orden del objeto visual | `No` | `Sí` ignora el orden elegido en el encabezado (`...` > Ordenar eje) y devuelve el mando a este panel (p. ej. para restaurar el orden del modelo). |
+
+### Colores y estilo
+| Propiedad | Defecto | Descripción |
+| --- | --- | --- |
+| Fondo del encabezado | *(tema)* | Fondo de la caja del control. |
+| Color de texto del encabezado | *(tema)* | Color del texto del encabezado. |
+| Fondo del menú desplegable | *(tema)* | Fondo de la lista expandida. |
+| Color de texto de elementos | *(tema)* | Color de los elementos de la lista. |
+| Color de casilla | *(acento)* | Acento de las casillas de selección múltiple. |
+| Borde de selección | `Sí` | Dibuja un borde alrededor del control cuando hay selección activa. |
+| Color del borde de selección | `#2563eb` | Color del borde. |
+| Grosor del borde de selección | `1` | Grosor del borde en px. |
+
+### Información sobre herramientas
+| Propiedad | Defecto | Descripción |
+| --- | --- | --- |
+| Mostrar información sobre herramientas | `No` | Habilita las tarjetas de información sobre herramientas nativas (incluidas las páginas de información sobre herramientas del informe). |
+
+---
+
+## 3. Notas de comportamiento
+
+- **Modelo de filtrado**: las selecciones se aplican como filtro JSON tuple mediante `applyJsonFilter` (el mismo canal que usa el HierarchySlicer de referencia). Esto da filtrado cruzado fiable, evita errores de selección de puntos de datos del host y persiste en el informe.
+- **Persistencia**: la selección actual se restaura desde los filtros del informe en cada actualización, por lo que sobrevive a guardar/reabrir, marcadores y segmentadores sincronizados.
+- **Cambio de origen**: si cambian los campos vinculados, el visual reinicia su estado de sesión (universos, cachés, expansiones) y limpia filtros obsoletos automáticamente. Una medida de filtro desalineada se ignora en lugar de ocultar filas.
+- **Ejemplos de prefijos**: se muestran en inglés en el panel de formato (los marcadores de posición no son localizables en el modelo de formato actual).
+- **Reducción de datos**: usa `window`, que conserva el orden del modelo (sin reordenación Top-N por medida).
+
+---
+
+## 4. Consejos de diseño
+
+- La lista expandida **no puede salirse del marco del visual**: dimensiona el marco con alto suficiente (encabezado + lista). Es la única vía fiable en **Power BI Service**, donde cada visual se ejecuta en un iframe cross-origin y no puede ordenarse por encima de otros.
+- En Desktop el visual eleva su contenedor mientras la lista está abierta; en el Service el orden se controla desde el informe.
+- Mantén los filtros al frente en el panel **Selección** (o activa *Mantener orden de capas*). Las zonas transparentes dejan pasar los clics, así que lo de atrás sigue siendo editable.
 - Las tarjetas de la pestaña **General** (fondo, efectos, relleno, título) pertenecen al contenedor del host y el visual no puede predefinirlas — usa un tema de informe para valores uniformes.
 
-## 2. Características principales
-- Segmentador jerárquico multinivel con UX de desplegable.
-- Filtrado por filtro JSON tuple (mismo canal que HierarchySlicer): filtrado cruzado fiable, persistencia y sin errores de selección del host.
-- Recorte de prefijos por nivel, localización en 5 idiomas (`en-US`, `es-ES`, `it-IT`, `fr-FR`, `de-DE`).
-- Ocultación de miembros sin datos guiada por medida, con valores en línea y tooltips.
+---
 
-## 3. Cambios recientes
-- **1.0.0.21**: filtrado migrado a JSON tuple (`applyJsonFilter`) + sincronización de filtros; selección restaurada desde los filtros del informe.
-- **1.0.0.22**: robustez ante vistas de datos degeneradas (cambios de visual).
-- **1.0.0.23**: el encabezado muestra el ancestro común (`Colombia (3)`).
-- **1.0.0.24**: ventana de datos en orden del modelo (sin orden por medida).
-- **1.0.0.25**: altura del control (defecto 36) y espacio superior (defecto 0); defecto de orden de vuelta a A-Z.
-- **1.0.0.26**: posiciones `Top-right` / `Bottom-right` (control anclado a la derecha).
-- **1.0.0.27**: espacio superior reemplazado por espacio de etiqueta (defecto 4).
-- **1.0.0.28**: fuente, negrita y cursiva en el encabezado.
-- **1.0.0.29**: tarjeta de tipografía `Dropdown expanded`; ejemplos de prefijos en inglés; separador `;` en prefijos.
-- **1.0.0.30**: ancho/alto/expandir-todo movidos a `Dropdown expanded`; valores tipográficos concretos (12, Segoe UI).
-- **1.0.0.31**: textos por defecto en inglés; fuente del encabezado Segoe UI; Mostrar valores movido a `Dropdown expanded`, apagado por defecto.
-- **1.0.0.32**: orden por nivel (1–3) + `Ignorar orden del encabezado`.
-- **1.0.0.33**: seleccionar todo conserva las marcas (filtro completo explícito); resiliencia ante cambio de fuente (reseteo de sesión, limpieza de filtros obsoletos, medida desalineada ignorada).
-- **1.0.0.34**: revisión técnica de localización (terminología de plataforma por idioma).
-- **1.0.0.35**: título visible aun sin datos (espacio reservado en carga); encabezado guiado por filtro propio (selección única estable).
-- **1.0.0.36**: espaciado del título idéntico con/sin registros (reserva solo en vacío).
+## 5. Localización
+
+El visual incluye traducciones completas para `en-US`, `es-ES`, `it-IT`, `fr-FR` y `de-DE`.
+
+---
+
+## 6. Historial de cambios (reciente)
+
+- **1.0.0.21**: filtrado migrado a JSON tuple (`applyJsonFilter`) + sincronización de filtros.
+- **1.0.0.22**: robustez ante vistas de datos degeneradas.
+- **1.0.0.23**: el encabezado muestra el ancestro común.
+- **1.0.0.24**: la ventana de datos conserva el orden del modelo.
+- **1.0.0.25–1.0.0.27**: altura del control, espacio de etiqueta, posiciones `Superior derecha` / `Inferior derecha`.
+- **1.0.0.28–1.0.0.31**: fuente/negrita/cursiva del encabezado, tipografía de `Desplegable expandido`, textos por defecto en inglés, valores de medida movidos y apagados por defecto.
+- **1.0.0.32**: orden por nivel (1–3) e `Ignorar orden del objeto visual`.
+- **1.0.0.33**: seleccionar todo conserva las marcas; resiliencia ante cambios de origen.
+- **1.0.0.34**: revisión técnica de localización.
+- **1.0.0.35–1.0.0.36**: título visible sin datos, encabezado estable guiado por el filtro propio, espaciado coherente.
 - **1.0.0.37**: espacio de etiqueta por defecto 2px.
+- **1.0.0.38–1.0.0.41**: modo de selección simple/múltiple, indicador cuadrado relleno, interruptor en el encabezado, tarjeta `Selección múltiple` (`Permitir múltiple` activado por defecto).
+- **1.0.0.42**: elevación del contenedor del host mientras la lista está abierta; limitación de plataforma documentada en Service.
