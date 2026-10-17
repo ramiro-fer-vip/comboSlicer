@@ -1,6 +1,6 @@
 # comboSlicer
 
-Filtro desplegabile gerarchico per Power BI. Versione **1.0.0.42**.
+Filtro desplegabile gerarchico per Power BI. Versione **1.0.0.45**.
 
 Segmentatore a elenco a discesa che costruisce una gerarchia multilivello da più campi, filtra il report tramite il modello di filtri standard di Power BI e supporta rimozione dei prefissi, ordinamento, filtro guidato da misura e selezione singola/multipla.
 
@@ -133,17 +133,54 @@ L'ordine dei campi definisce la gerarchia: il **primo campo è il livello radice
 - L'elenco espanso **non può uscire dal riquadro dell'oggetto visivo**: dimensiona il riquadro in altezza (intestazione + elenco). È l'unica via affidabile in **Power BI Service**, dove ogni oggetto visivo gira in un iframe cross-origin e non può portarsi sopra gli altri.
 - In Desktop l'oggetto visivo eleva il proprio contenitore mentre l'elenco è aperto; nel Service l'ordine si controlla dal report.
 - Tieni i filtri in primo piano nel riquadro **Selezione** (o attiva *Mantieni ordine livelli*). Le aree trasparenti lasciano passare i clic, quindi ciò che è dietro resta modificabile.
-- Le schede della scheda **Generale** (sfondo, effetti, spaziatura, titolo) appartengono al contenitore host e l'oggetto visivo non può predefinirle — usa un tema del report per valori uniformi.
+- Le schede della scheda **Generale** (**Sfondo**, **Bordo dell'oggetto visivo**, **Ombra**, **Spaziatura**, **Titolo**) appartengono al contenitore host (`visualContainerObjects`), non all'oggetto visivo. `capabilities.json` non ha opzioni per esse, quindi non possono essere predefinite — vedi **sezione 5**.
 
 ---
 
-## 5. Localizzazione
+## 5. Nascondere sfondo e bordo del contenitore
+
+La cornice sottile visibile attorno al controllo **non** è disegnata dall'oggetto visivo: è il **contenitore host** (`visualContainerObjects`). Non esiste una proprietà dell'oggetto visivo per questo, quindi va disattivata nel report.
+
+### Opzione A — Per oggetto visivo
+1. Seleziona l'oggetto visivo.
+2. **Formato oggetto visivo** (rullo) > scheda **Generale**.
+3. Espandi **Effetti**:
+   - **Sfondo** → disattiva (oppure lascialo attivo con **Trasparenza = 100%**).
+   - **Bordo dell'oggetto visivo** → disattiva.
+   - **Ombra** → disattiva (facoltativo).
+4. Se l'oggetto visivo risulta compresso, imposta **Proprietà > Spaziatura** esplicitamente (vedi nota).
+
+### Opzione B — Tutto il report
+1. **Visualizza** > **Temi** > **Impostazioni predefinite degli oggetti visivi** (o **Personalizza tema corrente**).
+2. Disattiva **Sfondo** e **Bordo**.
+3. Tutti gli oggetti visivi non personalizzati singolarmente ereditano questi valori.
+
+### Opzione C — Tema JSON riutilizzabile
+```json
+{
+  "name": "Senza cornice",
+  "visualStyles": {
+    "*": { "*": {
+      "background": [{ "show": false }],
+      "border": [{ "show": false }],
+      "dropShadow": [{ "show": false }]
+    }}
+  }
+}
+```
+Importalo da **Visualizza** > **Temi** > **Cerca temi**.
+
+> **Nota:** non appena un oggetto visivo dichiara qualsiasi impostazione del contenitore (sfondo, bordo, titolo…), Power BI smette di ereditare la **Spaziatura** predefinita del tema per quell'oggetto e la imposta a `0`. Imposta **Proprietà > Spaziatura** esplicitamente se ti serve spazio.
+
+---
+
+## 6. Localizzazione
 
 L'oggetto visivo include traduzioni complete per `en-US`, `es-ES`, `it-IT`, `fr-FR` e `de-DE`.
 
 ---
 
-## 6. Cronologia modifiche (recente)
+## 7. Cronologia modifiche (recente)
 
 - **1.0.0.21**: filtraggio migrato a JSON tuple (`applyJsonFilter`) + sincronizzazione filtri.
 - **1.0.0.22**: robustezza contro viste dati degeneri.
@@ -158,3 +195,6 @@ L'oggetto visivo include traduzioni complete per `en-US`, `es-ES`, `it-IT`, `fr-
 - **1.0.0.37**: spaziatura etichetta predefinita 2px.
 - **1.0.0.38–1.0.0.41**: modalità selezione singola/multipla, indicatore quadrato pieno, interruttore nell'intestazione, scheda `Selezione multipla` (attiva per impostazione predefinita).
 - **1.0.0.42**: elevazione del contenitore host mentre l'elenco è aperto; limite di piattaforma documentato nel Service.
+- **1.0.0.43**: geometria dell'elenco ricalcolata all'apertura della ricerca (mantiene l'elenco nel riquadro) e focus senza scorrimento.
+- **1.0.0.44**: il contenitore host viene ri-localizzato a ogni elevazione (sopravvive ai re-render dell'host) e l'apilamento viene riaffermato poco dopo l'apertura, così l'elenco mantiene il suo livello dopo aver usato altri controlli.
+- **1.0.0.45**: i pulsanti di azione dell'intestazione (ricerca, Seleziona tutto, cancella, singolo/multiplo) non arrestano più la propagazione dell'evento, così Power BI rileva il clic e eleva l'oggetto visivo — era questo il motivo per cui la casella di ricerca restava sotto altri controlli. L'intestazione ignora internamente quei clic e l'elevazione copre ora anche l'iframe stesso e i contenitori `visual-container` / `-modern` / `-group`.

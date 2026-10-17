@@ -1,6 +1,6 @@
 # comboSlicer
 
-Hierarchischer Dropdown-Slicer für Power BI. Version **1.0.0.42**.
+Hierarchischer Dropdown-Slicer für Power BI. Version **1.0.0.45**.
 
 Ein Dropdown-Slicer, der aus mehreren Feldern eine mehrstufige Hierarchie aufbaut, den Bericht über das Standard-Filtermodell von Power BI filtert und Präfixkürzung, Sortierung, measuregesteuerte Filterung sowie Einzel-/Mehrfachauswahl unterstützt.
 
@@ -133,17 +133,54 @@ Die Feldreihenfolge bestimmt die Hierarchie: das **erste Feld ist die Wurzeleben
 - Die erweiterte Liste **kann den Visual-Rahmen nicht verlassen**: dimensioniere den Rahmen hoch genug (Kopf + Liste). Das ist im **Power BI Service** der einzig verlässliche Weg, da jedes Visual in einem Cross-Origin-iframe läuft und sich nicht über andere legen kann.
 - In Desktop hebt das Visual beim Öffnen seinen Container an; im Service wird die Reihenfolge im Bericht gesteuert.
 - Halte Slicer im Bereich **Auswahl** im Vordergrund (oder aktiviere *Ebenenreihenfolge beibehalten*). Transparente Bereiche sind klickdurchlässig, sodass dahinterliegende Visuals bearbeitbar bleiben.
-- Die Karten der Registerkarte **Allgemein** (Hintergrund, Effekte, Abstand, Titel) gehören zum Host-Container und können vom Visual nicht voreingestellt werden — nutze ein Berichtdesign für einheitliche Werte.
+- Die Karten der Registerkarte **Allgemein** (**Hintergrund**, **Rahmen des Visuals**, **Schatten**, **Abstand**, **Titel**) gehören zum Host-Container (`visualContainerObjects`), nicht zum Visual. `capabilities.json` hat dafür keine Option, sie lassen sich also nicht voreinstellen — siehe **Abschnitt 5**.
 
 ---
 
-## 5. Lokalisierung
+## 5. Hintergrund und Rahmen des Containers ausblenden
+
+Der dünne Rahmen um das Steuerelement wird **nicht** vom Visual gezeichnet: Es ist der **Host-Container** (`visualContainerObjects`). Dafür gibt es keine Visual-Eigenschaft; er muss im Bericht deaktiviert werden.
+
+### Option A — Pro Visual
+1. Wähle das Visual aus.
+2. **Visual formatieren** (Farbrolle) > Registerkarte **Allgemein**.
+3. Klappe **Effekte** auf:
+   - **Hintergrund** → aus (oder aktiv lassen mit **Transparenz = 100 %**).
+   - **Rahmen des Visuals** → aus.
+   - **Schatten** → aus (optional).
+4. Wirkt das Visual danach gedrängt, setze **Eigenschaften > Abstand** explizit (siehe Hinweis).
+
+### Option B — Ganzer Bericht
+1. **Ansicht** > **Designs** > **Standardwerte für Visuals** (oder **Aktuelles Design anpassen**).
+2. **Hintergrund** und **Rahmen** ausschalten.
+3. Alle nicht einzeln angepassten Visuals übernehmen diese Werte.
+
+### Option C — Wiederverwendbares JSON-Design
+```json
+{
+  "name": "Ohne Container-Rahmen",
+  "visualStyles": {
+    "*": { "*": {
+      "background": [{ "show": false }],
+      "border": [{ "show": false }],
+      "dropShadow": [{ "show": false }]
+    }}
+  }
+}
+```
+Import über **Ansicht** > **Designs** > **Nach Designs suchen**.
+
+> **Hinweis:** Sobald ein Visual eine Container-Einstellung deklariert (Hintergrund, Rahmen, Titel…), erbt es den Standard-**Abstand** des Designs nicht mehr und dieser wird auf `0` gesetzt. Setze **Eigenschaften > Abstand** explizit, wenn du Platz brauchst.
+
+---
+
+## 6. Lokalisierung
 
 Das Visual enthält vollständige Übersetzungen für `en-US`, `es-ES`, `it-IT`, `fr-FR` und `de-DE`.
 
 ---
 
-## 6. Änderungsverlauf (aktuell)
+## 7. Änderungsverlauf (aktuell)
 
 - **1.0.0.21**: Filterung auf JSON-Tupel (`applyJsonFilter`) umgestellt + Filtersynchronisierung.
 - **1.0.0.22**: Robustheit gegen degenerierte Datenansichten.
@@ -158,3 +195,6 @@ Das Visual enthält vollständige Übersetzungen für `en-US`, `es-ES`, `it-IT`,
 - **1.0.0.37**: Beschriftungsabstand Standard 2px.
 - **1.0.0.38–1.0.0.41**: Einzel-/Mehrfachmodus, gefüllte Quadrat-Anzeige, Kopfzeilenumschalter, Karte `Mehrfachauswahl` (Standard: an).
 - **1.0.0.42**: bestmögliche Anhebung des Host-Containers bei geöffneter Liste; Plattformgrenze im Service dokumentiert.
+- **1.0.0.43**: Listengeometrie wird beim Öffnen der Suche neu berechnet (Liste bleibt im Rahmen) und Fokus ohne Scrollen.
+- **1.0.0.44**: Der Host-Container wird bei jeder Anhebung neu gesucht (übersteht Neu-Renderings des Hosts) und die Stapelung wird kurz nach dem Öffnen bestätigt, damit die Liste nach anderen Bedienungen ihre Ebene behält.
+- **1.0.0.45**: Die Aktionsschaltflächen der Kopfzeile (Suche, Alle auswählen, Löschen, Einzel/Mehrfach) stoppen die Ereignisweitergabe nicht mehr, sodass Power BI den Klick erkennt und das Visual anhebt — genau das ließ das Suchfeld hinter anderen Steuerelementen liegen. Die Kopfzeile ignoriert diese Klicks intern, und die Anhebung erfasst jetzt auch das iframe selbst sowie die Container `visual-container` / `-modern` / `-group`.

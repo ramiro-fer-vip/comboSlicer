@@ -1,6 +1,6 @@
 # comboSlicer
 
-Hierarchical dropdown slicer for Power BI. Version **1.0.0.42**.
+Hierarchical dropdown slicer for Power BI. Version **1.0.0.45**.
 
 A dropdown slicer that builds a multi-level hierarchy from several fields, filters the report through the standard Power BI filter model, and supports prefix trimming, sorting, measure-driven filtering and single/multi selection.
 
@@ -133,17 +133,54 @@ Field order defines the hierarchy: the **first field is the root level** and the
 - The expanded list **cannot overflow the visual frame**: size the frame tall enough to contain header + list. This is the only reliable approach in **Power BI Service**, where each visual runs in a cross-origin iframe and cannot reorder itself above other visuals.
 - In Desktop the visual raises its host container while the list is open; in the Service the order is controlled from the report.
 - Keep slicers at the front in the **Selection** pane (or enable *Maintain layer order*). Transparent areas are click-through, so visuals behind remain editable.
-- `General` tab cards (Background, Effects, Padding, Title) belong to the host container and cannot be preset by the visual — use a report theme for uniform defaults.
+- `General` tab cards (**Background**, **Visual border**, **Shadow**, **Padding**, **Title**) belong to the host container (`visualContainerObjects`), not to the visual. `capabilities.json` has no knob for them, so they cannot be preset — see **section 5**.
 
 ---
 
-## 5. Localization
+## 5. Hide the container background and border
+
+The thin frame visible around the control is **not** drawn by the visual: it is the host **visual container** (`visualContainerObjects`). There is no visual property for it, so it must be turned off in the report.
+
+### Option A — Per visual
+1. Select the visual.
+2. **Format visual** (paint roller) > **General** tab.
+3. Expand **Effects**:
+   - **Background** → toggle **Off** (or leave it On with **Transparency = 100%**).
+   - **Visual border** → toggle **Off**.
+   - **Shadow** → toggle **Off** (optional).
+4. If the visual looks cramped afterwards, set **Properties > Padding** explicitly (see the note below).
+
+### Option B — Whole report
+1. **View** > **Themes** > **Visual defaults** (or **Customize current theme**).
+2. Turn **Background** and **Border** off.
+3. Every visual that has not been customized individually inherits these defaults.
+
+### Option C — Custom theme JSON (reusable)
+```json
+{
+  "name": "No container chrome",
+  "visualStyles": {
+    "*": { "*": {
+      "background": [{ "show": false }],
+      "border": [{ "show": false }],
+      "dropShadow": [{ "show": false }]
+    }}
+  }
+}
+```
+Import it with **View** > **Themes** > **Browse for themes**.
+
+> **Note:** as soon as a visual declares any container override (background, border, title…), Power BI stops inheriting the theme's default **Padding** for that visual and resets it to `0`. Set **Properties > Padding** explicitly if you need spacing.
+
+---
+
+## 6. Localization
 
 The visual ships with full translations for `en-US`, `es-ES`, `it-IT`, `fr-FR` and `de-DE`.
 
 ---
 
-## 6. Changelog (recent)
+## 7. Changelog (recent)
 
 - **1.0.0.21**: filtering migrated to JSON tuple (`applyJsonFilter`) + filter-state sync.
 - **1.0.0.22**: hardened against degenerate data views.
@@ -158,3 +195,6 @@ The visual ships with full translations for `en-US`, `es-ES`, `it-IT`, `fr-FR` a
 - **1.0.0.37**: label spacing default 2px.
 - **1.0.0.38–1.0.0.41**: single/multiple selection mode, filled-square indicator, header toggle, `Multiple Select` card (`Allow multiple` on by default).
 - **1.0.0.42**: best-effort host-container raise while the list is open; documented platform limit in Service.
+- **1.0.0.43**: dropdown geometry recalculated when the search bar opens (keeps the list inside the frame) and focus without scrolling.
+- **1.0.0.44**: host container re-discovered on every raise (survives host re-renders) and raise re-asserted shortly after opening, so the list keeps its layer after using other controls.
+- **1.0.0.45**: header action buttons (search, Select All, clear, single/multiple toggle) no longer stop event propagation, so Power BI detects the click and raises the visual — this is what kept the search box behind other controls. The header ignores those clicks internally, and the raise now also covers the iframe itself and the `visual-container` / `-modern` / `-group` containers.

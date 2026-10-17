@@ -1,6 +1,6 @@
 # comboSlicer
 
-Segmentación desplegable jerárquica para Power BI. Versión **1.0.0.42**.
+Segmentación desplegable jerárquica para Power BI. Versión **1.0.0.45**.
 
 Segmentador tipo lista desplegable que construye una jerarquía multinivel a partir de varios campos, filtra el informe mediante el modelo de filtros estándar de Power BI y admite recorte de prefijos, ordenación, filtrado por medida y selección simple o múltiple.
 
@@ -133,17 +133,54 @@ El orden de los campos define la jerarquía: el **primer campo es el nivel raíz
 - La lista expandida **no puede salirse del marco del visual**: dimensiona el marco con alto suficiente (encabezado + lista). Es la única vía fiable en **Power BI Service**, donde cada visual se ejecuta en un iframe cross-origin y no puede ordenarse por encima de otros.
 - En Desktop el visual eleva su contenedor mientras la lista está abierta; en el Service el orden se controla desde el informe.
 - Mantén los filtros al frente en el panel **Selección** (o activa *Mantener orden de capas*). Las zonas transparentes dejan pasar los clics, así que lo de atrás sigue siendo editable.
-- Las tarjetas de la pestaña **General** (fondo, efectos, relleno, título) pertenecen al contenedor del host y el visual no puede predefinirlas — usa un tema de informe para valores uniformes.
+- Las tarjetas de la pestaña **General** (**Fondo**, **Borde del objeto visual**, **Sombra**, **Relleno**, **Título**) pertenecen al contenedor del host (`visualContainerObjects`), no al visual. `capabilities.json` no tiene opción para ellas, así que no pueden predefinirse — ver **sección 5**.
 
 ---
 
-## 5. Localización
+## 5. Ocultar el fondo y el borde del contenedor
+
+El marco fino que se ve alrededor del control **no** lo dibuja el visual: es el **contenedor del host** (`visualContainerObjects`). No existe ninguna propiedad del visual para ello, así que debe desactivarse en el informe.
+
+### Opción A — Por visual
+1. Selecciona el objeto visual.
+2. **Formato del objeto visual** (rodillo) > pestaña **General**.
+3. Despliega **Efectos**:
+   - **Fondo** → desactivar (o dejarlo activo con **Transparencia = 100%**).
+   - **Borde del objeto visual** → desactivar.
+   - **Sombra** → desactivar (opcional).
+4. Si el visual queda ajustado, define **Propiedades > Relleno** explícitamente (ver nota).
+
+### Opción B — Todo el informe
+1. **Vista** > **Temas** > **Valores predeterminados de los objetos visuales** (o **Personalizar tema actual**).
+2. Desactiva **Fondo** y **Borde**.
+3. Todos los visuales que no estén personalizados individualmente heredan esos valores.
+
+### Opción C — Tema JSON reutilizable
+```json
+{
+  "name": "Sin marco de contenedor",
+  "visualStyles": {
+    "*": { "*": {
+      "background": [{ "show": false }],
+      "border": [{ "show": false }],
+      "dropShadow": [{ "show": false }]
+    }}
+  }
+}
+```
+Impórtalo desde **Vista** > **Temas** > **Buscar temas**.
+
+> **Nota:** en cuanto un visual declara cualquier ajuste de contenedor (fondo, borde, título…), Power BI deja de heredar el **Relleno** por defecto del tema para ese visual y lo pone a `0`. Define **Propiedades > Relleno** explícitamente si necesitas espacio.
+
+---
+
+## 6. Localización
 
 El visual incluye traducciones completas para `en-US`, `es-ES`, `it-IT`, `fr-FR` y `de-DE`.
 
 ---
 
-## 6. Historial de cambios (reciente)
+## 7. Historial de cambios (reciente)
 
 - **1.0.0.21**: filtrado migrado a JSON tuple (`applyJsonFilter`) + sincronización de filtros.
 - **1.0.0.22**: robustez ante vistas de datos degeneradas.
@@ -158,3 +195,6 @@ El visual incluye traducciones completas para `en-US`, `es-ES`, `it-IT`, `fr-FR`
 - **1.0.0.37**: espacio de etiqueta por defecto 2px.
 - **1.0.0.38–1.0.0.41**: modo de selección simple/múltiple, indicador cuadrado relleno, interruptor en el encabezado, tarjeta `Selección múltiple` (`Permitir múltiple` activado por defecto).
 - **1.0.0.42**: elevación del contenedor del host mientras la lista está abierta; limitación de plataforma documentada en Service.
+- **1.0.0.43**: geometría del desplegable recalculada al abrir la búsqueda (mantiene la lista dentro del marco) y foco sin desplazamiento.
+- **1.0.0.44**: el contenedor del host se vuelve a localizar en cada elevación (sobrevive a re-renderizados del host) y el apilado se reafirma poco después de abrir, para que la lista conserve su capa tras usar otros controles.
+- **1.0.0.45**: los botones de acción de la cabecera (búsqueda, Seleccionar todo, limpiar, simple/múltiple) ya no detienen la propagación del evento, de modo que Power BI detecta el clic y eleva el visual — esto era lo que dejaba el cuadro de búsqueda detrás de otros controles. La cabecera ignora esos clics internamente y la elevación cubre ahora también el propio iframe y los contenedores `visual-container` / `-modern` / `-group`.

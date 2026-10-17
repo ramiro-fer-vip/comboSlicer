@@ -1,6 +1,6 @@
 # comboSlicer
 
-Segment hiérarchique à liste déroulante pour Power BI. Version **1.0.0.42**.
+Segment hiérarchique à liste déroulante pour Power BI. Version **1.0.0.45**.
 
 Segment à liste déroulante qui construit une hiérarchie multiniveau à partir de plusieurs champs, filtre le rapport via le modèle de filtres standard de Power BI et gère la suppression de préfixes, le tri, le filtrage piloté par mesure et la sélection simple ou multiple.
 
@@ -133,17 +133,54 @@ L'ordre des champs définit la hiérarchie : le **premier champ est le niveau ra
 - La liste développée **ne peut pas dépasser le cadre du visuel** : dimensionne le cadre en hauteur (en-tête + liste). C'est la seule voie fiable dans **Power BI Service**, où chaque visuel s'exécute dans un iframe cross-origin et ne peut pas se placer au-dessus des autres.
 - Dans Desktop, le visuel élève son conteneur pendant l'ouverture ; dans le Service, l'ordre se contrôle depuis le rapport.
 - Garde les segments au premier plan dans le volet **Sélection** (ou active *Conserver l'ordre des couches*). Les zones transparentes laissent passer les clics, ce qui reste derrière demeure modifiable.
-- Les cartes de l'onglet **Général** (arrière-plan, effets, remplissage, titre) appartiennent au conteneur hôte et le visuel ne peut pas les prédéfinir — utilise un thème de rapport pour des valeurs uniformes.
+- Les cartes de l'onglet **Général** (**Arrière-plan**, **Bordure du visuel**, **Ombre**, **Remplissage**, **Titre**) appartiennent au conteneur hôte (`visualContainerObjects`), pas au visuel. `capabilities.json` n'a aucune option pour elles : elles ne peuvent donc pas être prédéfinies — voir **section 5**.
 
 ---
 
-## 5. Localisation
+## 5. Masquer l'arrière-plan et la bordure du conteneur
+
+Le cadre fin visible autour du contrôle **n'est pas** dessiné par le visuel : c'est le **conteneur hôte** (`visualContainerObjects`). Il n'existe aucune propriété du visuel pour cela ; il faut donc le désactiver dans le rapport.
+
+### Option A — Par visuel
+1. Sélectionne le visuel.
+2. **Mettre en forme le visuel** (rouleau) > onglet **Général**.
+3. Développe **Effets** :
+   - **Arrière-plan** → désactiver (ou laisser activé avec **Transparence = 100 %**).
+   - **Bordure du visuel** → désactiver.
+   - **Ombre** → désactiver (facultatif).
+4. Si le visuel paraît à l'étroit, définis **Propriétés > Remplissage** explicitement (voir la note).
+
+### Option B — Tout le rapport
+1. **Affichage** > **Thèmes** > **Valeurs par défaut des visuels** (ou **Personnaliser le thème actuel**).
+2. Désactive **Arrière-plan** et **Bordure**.
+3. Tous les visuels non personnalisés individuellement héritent de ces valeurs.
+
+### Option C — Thème JSON réutilisable
+```json
+{
+  "name": "Sans cadre de conteneur",
+  "visualStyles": {
+    "*": { "*": {
+      "background": [{ "show": false }],
+      "border": [{ "show": false }],
+      "dropShadow": [{ "show": false }]
+    }}
+  }
+}
+```
+Importe-le via **Affichage** > **Thèmes** > **Rechercher des thèmes**.
+
+> **Remarque :** dès qu'un visuel déclare un réglage de conteneur (arrière-plan, bordure, titre…), Power BI cesse d'hériter du **Remplissage** par défaut du thème pour ce visuel et le remet à `0`. Définis **Propriétés > Remplissage** explicitement si tu as besoin d'espace.
+
+---
+
+## 6. Localisation
 
 Le visuel inclut des traductions complètes pour `en-US`, `es-ES`, `it-IT`, `fr-FR` et `de-DE`.
 
 ---
 
-## 6. Journal des modifications (récent)
+## 7. Journal des modifications (récent)
 
 - **1.0.0.21** : filtrage migré vers JSON tuple (`applyJsonFilter`) + synchronisation des filtres.
 - **1.0.0.22** : robustesse face aux vues de données dégénérées.
@@ -158,3 +195,6 @@ Le visuel inclut des traductions complètes pour `en-US`, `es-ES`, `it-IT`, `fr-
 - **1.0.0.37** : espacement de l'étiquette 2px par défaut.
 - **1.0.0.38–1.0.0.41** : mode sélection simple/multiple, indicateur carré plein, bouton dans l'en-tête, carte `Sélection multiple` (activé par défaut).
 - **1.0.0.42** : élévation du conteneur hôte pendant l'ouverture de la liste ; limite de plateforme documentée dans le Service.
+- **1.0.0.43** : géométrie de la liste recalculée à l'ouverture de la recherche (la liste reste dans le cadre) et focus sans défilement.
+- **1.0.0.44** : le conteneur hôte est redécouvert à chaque élévation (survit aux redessins de l'hôte) et le z-order est réaffirmé peu après l'ouverture, afin que la liste conserve son calque après avoir utilisé d'autres contrôles.
+- **1.0.0.45** : les boutons d'action de l'en-tête (recherche, Tout sélectionner, effacer, simple/multiple) n'arrêtent plus la propagation de l'événement, si bien que Power BI détecte le clic et élève le visuel — c'est ce qui laissait la zone de recherche derrière les autres contrôles. L'en-tête ignore ces clics en interne et l'élévation couvre désormais l'iframe lui-même ainsi que les conteneurs `visual-container` / `-modern` / `-group`.
